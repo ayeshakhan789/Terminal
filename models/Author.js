@@ -24,4 +24,9 @@ authorSchema.pre('save', function (next) {
   next();
 });
 
+// Add a method to get the number of books linked to an author
+authorSchema.methods.getBookCount = function () {
+    return this.model('Book').countDocuments({ authorId: this._id });
+  };
+
 module.exports = mongoose.model('Author', authorSchema);

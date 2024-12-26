@@ -4,6 +4,7 @@ const borrowerSchema = new mongoose.Schema({
   name: { type: String, required: true },
   borrowedBooks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
   membershipActive: { type: Boolean, required: true },
+  overdueBooks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
   membershipType: { 
     type: String, 
     enum: ['Standard', 'Premium'], 

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Author = require('../models/Author');
+const Book = require('../models/Book');
 
 // Add a new author
 router.post('/', async (req, res) => {
@@ -43,6 +44,25 @@ router.delete('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+// GET route to find authors linked to more than 5 books
+router.get('/over-limit', async (req, res) => {
+    try {
+        const authors = await Author.find();
+        const overLimitAuthors = [];
+
+        for (let author of authors) {
+            const bookCount = await Book.countDocuments({ author: author._id });
+            if (bookCount > 5) {
+                overLimitAuthors.push({ author, bookCount });
+            }
+        }
+
+        res.status(200).json(overLimitAuthors);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
 module.exports = router;
