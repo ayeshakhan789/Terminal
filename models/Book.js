@@ -5,8 +5,9 @@ const bookSchema = new mongoose.Schema({
     authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'Author', required: true },
     publishedDate: { type: Date },
     availableCopies: { type: Number, required: true },
-    totalCopies: { type: Number, required: true } // Keep track of the total number of copies
-  });
+    totalCopies: { type: Number, required: true },
+    isbn: { type: String, required: true, unique: true } // Unique identifier for the book
+});
 
 // Custom validation for availableCopies
 bookSchema.pre('save', function (next) {
